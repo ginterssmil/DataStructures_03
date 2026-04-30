@@ -106,7 +106,14 @@ public class MyLinkedHeap<Ttype> {
 				if (lastNode.getParentNode().getLeftChNode() != null
 						&& lastNode.getParentNode().getRightChNode() != null) {
 
-					MyNode currentParent = findInsertionNode();
+					int numberForNewNode = howManyElements;
+					//otrais -1, jo kartas skaitlis sāks no 1 nevis no 0 ka masīva
+					int numberForNewNodeParent = (numberForNewNode-1 -1)/2;
+					System.out.println("Parent number: " + numberForNewNodeParent);
+					//leftIndex = parentIndex*2 + 1;
+					//((leftIndex -1)/2) = parentIndex
+					//rightIndex = parentIndex*2 +2
+					MyNode currentParent = getLastNodeByNumber(numberForNewNodeParent);
 					currentParent.setLeftChNode(newNode);
 					newNode.setParentNode(currentParent);
 					lastNode = newNode;
@@ -127,32 +134,12 @@ public class MyLinkedHeap<Ttype> {
 
 			}
 
-			// TODO izveidot pedējo scenāriju, kurs no labā bērna spej pārlekt
-			// uz blakus apkaškoka kreiso bērnu - paņemt piemēru no apraksta
-
+			
 		}
 
 	}
 
-	private MyNode findInsertionNode() {
-		Queue<MyNode> queue = new LinkedList<>();
-		queue.add(rootNode);
-		while (!queue.isEmpty()) {
-			MyNode currentNode = queue.poll();
-			if (currentNode.getRightChNode() == null) {
-				return currentNode;
-			} else {
-				queue.add(currentNode.getRightChNode());
-			}
-			if (currentNode.getLeftChNode() == null) {
-				return currentNode;
-			} else {
-				queue.add(currentNode.getLeftChNode());
-			}
-
-		}
-		return null;
-	}
+	
 
 	// MAX kaudzes gadījums
 	private void reheapUp(MyNode<Ttype> nodeTemp) {
@@ -202,25 +189,32 @@ public class MyLinkedHeap<Ttype> {
 		}
 	}
 
-	private MyNode<Ttype> getLastNodeByNumber(int number) throws Exception {
-		if(number<1) {
-			throw new Exception("Kartas skaitlis nevar but mazaks par 1");
+	private MyNode<Ttype> getLastNodeByNumber(int number) throws Exception{
+		if(number < 1) {
+			throw new Exception("Kārtas skaitlis nevar būt mazāks par 1");
 		}
 		
+		//ja number ir 6, tad binary būs 110
 		String binary = Integer.toBinaryString(number);
 		MyNode<Ttype> currentNode = rootNode;
 		
-		for(int i=1; i<binary.length();i++) {
-			if(binary.charAt(i)=='0') {
+		for(int i = 1; i < binary.length(); i++) {
+			if(binary.charAt(i) == '0') {
 				currentNode = currentNode.getLeftChNode();
 			}
-			else {
+			else
+			{
 				currentNode = currentNode.getRightChNode();
 			}
 		}
 		
 		return currentNode;
+		
+		
 	}
+	
+	
+	
 	// uztaisīt dequeue funkciju
 
 	// veicam visas pārbaudes
@@ -231,6 +225,4 @@ public class MyLinkedHeap<Ttype> {
 	// reheapDown izsaukt
 	// atgriežam elementu, kurš bija sākumā saknes blokā
 
-	
-	
 }
