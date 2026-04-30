@@ -202,6 +202,25 @@ public class MyLinkedHeap<Ttype> {
 		}
 	}
 
+	private MyNode<Ttype> getLastNodeByNumber(int number) throws Exception {
+		if(number<1) {
+			throw new Exception("Kartas skaitlis nevar but mazaks par 1");
+		}
+		
+		String binary = Integer.toBinaryString(number);
+		MyNode<Ttype> currentNode = rootNode;
+		
+		for(int i=1; i<binary.length();i++) {
+			if(binary.charAt(i)=='0') {
+				currentNode = currentNode.getLeftChNode();
+			}
+			else {
+				currentNode = currentNode.getRightChNode();
+			}
+		}
+		
+		return currentNode;
+	}
 	// uztaisīt dequeue funkciju
 
 	// veicam visas pārbaudes
@@ -212,4 +231,6 @@ public class MyLinkedHeap<Ttype> {
 	// reheapDown izsaukt
 	// atgriežam elementu, kurš bija sākumā saknes blokā
 
+	
+	
 }
