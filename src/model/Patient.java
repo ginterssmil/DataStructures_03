@@ -49,4 +49,8 @@ public class Patient implements Comparable<Patient>{
 
 	}
 	
+	public String toString() {
+		return priority + " " + name + " " + surname; 
+	}
+	
 }
