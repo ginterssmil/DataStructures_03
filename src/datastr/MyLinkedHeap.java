@@ -1,5 +1,8 @@
 package datastr;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class MyLinkedHeap<Ttype> {
 	// 1.mainigie
 	private MyNode<Ttype> rootNode = null;
@@ -99,6 +102,19 @@ public class MyLinkedHeap<Ttype> {
 				return;
 
 			} else {
+				// pēdējam blokam ir abi bērni
+				if (lastNode.getParentNode().getLeftChNode() != null
+						&& lastNode.getParentNode().getRightChNode() != null) {
+
+					MyNode currentParent = findInsertionNode();
+					currentParent.setLeftChNode(newNode);
+					newNode.setParentNode(currentParent);
+					lastNode = newNode;
+					reheapUp(newNode);
+					howManyElements++;
+					return;
+				}
+
 				// pēdējam blokam nav neviens no bērniem
 				if (lastNode.getLeftChNode() == null && lastNode.getRightChNode() == null) {
 					lastNode.setLeftChNode(newNode);
@@ -112,10 +128,30 @@ public class MyLinkedHeap<Ttype> {
 			}
 
 			// TODO izveidot pedējo scenāriju, kurs no labā bērna spej pārlekt
-			// uz blakus apkaškoka kreiso bērnu
+			// uz blakus apkaškoka kreiso bērnu - paņemt piemēru no apraksta
 
 		}
 
+	}
+
+	private MyNode findInsertionNode() {
+		Queue<MyNode> queue = new LinkedList<>();
+		queue.add(rootNode);
+		while (!queue.isEmpty()) {
+			MyNode currentNode = queue.poll();
+			if (currentNode.getRightChNode() == null) {
+				return currentNode;
+			} else {
+				queue.add(currentNode.getRightChNode());
+			}
+			if (currentNode.getLeftChNode() == null) {
+				return currentNode;
+			} else {
+				queue.add(currentNode.getLeftChNode());
+			}
+
+		}
+		return null;
 	}
 
 	// MAX kaudzes gadījums
@@ -176,10 +212,4 @@ public class MyLinkedHeap<Ttype> {
 	// reheapDown izsaukt
 	// atgriežam elementu, kurš bija sākumā saknes blokā
 
-	public void dequeue() throws Exception {
-		if(rootNode==null) {
-			throw new Exception("Kaudze ir tuksa, nevar iznemt elementu");
-		}
-	}
 }
-	
