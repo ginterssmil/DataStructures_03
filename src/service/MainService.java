@@ -15,6 +15,8 @@ public class MainService {
 			integersInHeap.enqueue(55);//P:99 (LC:55, RC:35), P:55 (LC:40, RC:50)
 			integersInHeap.enqueue(2);//P:99 (LC:55, RC:35), P:55 (LC:40, RC:50); ):35 (LC:2)
 			integersInHeap.print();
+			
+			System.out.println("Max vertiba: " + integersInHeap.dequeue());
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
